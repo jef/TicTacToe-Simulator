@@ -45,6 +45,7 @@ Agent.prototype.selectMove = function(board) {
             var evenNums = [2, 4, 6 ,8];
 
             // nothing on the board, x makes random move in corner
+            // testing
             if (freeCells.length === 9) {
                 return evenNums[Math.floor(Math.random() * evenNums.length)];
             }
