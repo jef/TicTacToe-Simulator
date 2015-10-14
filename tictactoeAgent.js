@@ -5,7 +5,8 @@ var Agent = function () {
 
 Agent.prototype.selectMove = function(board) {
     var freeCells = [];
-    for (var i = 1; i < 10; i++) {
+    var k, l, f, i, j;
+    for (i = 1; i < 10; i++) {
         if (board.cellFree(i)) freeCells.push(i);
     }
 
@@ -18,7 +19,7 @@ Agent.prototype.selectMove = function(board) {
                 for (f = 0; f < freeCells.length; f++) {
                     magicSum = board.X[k] + board.X[l] + freeCells[f];
                     if (magicSum === 15) {
-                        //alert("I won!");
+                        alert("I won!");
                         return freeCells[f];
                     }
                 }
@@ -27,12 +28,12 @@ Agent.prototype.selectMove = function(board) {
 
         if (board.O.length >= 2) {
             // O:[1,5,7] free:[3,9,2,4]
-            for (var k = 0; k < board.O.length - 1; k++) {
-                for (var l = k + 1; l < board.O.length; l++) {
-                    for (var f = 0; f < freeCells.length; f++) {
+            for (k = 0; k < board.O.length - 1; k++) {
+                for (l = k + 1; l < board.O.length; l++) {
+                    for (f = 0; f < freeCells.length; f++) {
                         magicSum = board.O[k] + board.O[l] + freeCells[f];
                         if (magicSum === 15) {
-                            //alert("Blocked!");
+                            alert("Blocked!");
                             return freeCells[f];
                         }
                     }
@@ -77,13 +78,22 @@ Agent.prototype.selectMove = function(board) {
                 }
             }
 
-            if (freeCells.length === 5) {
+            // finishes the trap (fork)
+            if (freeCells.length === 5 && board.cellFree(5)) return 5;
 
+            // finishes 3 corners
+            if (freeCells.length === 5 && !board.cellFree(5)) {
+                for (i = 0; i < evenNums.length; i++) {
+                    for (j = 0; j < freeCells.length; j++) {
+                        if (freeCells[j] % 2 === evenNums[i]) return evenNums[i];
+                    }
+                }
             }
+
             return freeCells[Math.floor(Math.random() * freeCells.length)];
         }
     } else { // agent 2 (also known as playerTwo)
-        if (board.cellFree(5)) return 5;
+        //if (board.cellFree(5)) return 5;
         return freeCells[Math.floor(Math.random() * freeCells.length)];
     }
 };
