@@ -18,7 +18,7 @@ Agent.prototype.selectMove = function(board) {
                 for (f = 0; f < freeCells.length; f++) {
                     magicSum = board.X[k] + board.X[l] + freeCells[f];
                     if (magicSum === 15) {
-                        alert("I WON BITCHES");
+                        //alert("I won!");
                         return freeCells[f];
                     }
                 }
@@ -32,7 +32,7 @@ Agent.prototype.selectMove = function(board) {
                     for (var f = 0; f < freeCells.length; f++) {
                         magicSum = board.O[k] + board.O[l] + freeCells[f];
                         if (magicSum === 15) {
-                            alert("GOTCHA BITCH");
+                            //alert("Blocked!");
                             return freeCells[f];
                         }
                     }
@@ -49,7 +49,8 @@ Agent.prototype.selectMove = function(board) {
                 return evenNums[Math.floor(Math.random() * evenNums.length)];
             }
 
-            if (!board.cellFree(5) && freeCells.length === 7) { // chose diagonal corner spot
+            // chose diagonal corner spot
+            if (!board.cellFree(5) && freeCells.length === 7) {
                 switch(board.X[0]) {
                     case 2: return 8;
                     case 4: return 6;
@@ -57,10 +58,28 @@ Agent.prototype.selectMove = function(board) {
                     case 6: return 4;
                 }
             }
-            else {
-                return evenNums[Math.floor(Math.random() * evenNums.length)];
+
+            // setup for trap (fork) or three corners
+            else if (board.cellFree(5) && freeCells.length === 7) {
+                switch(board.X[0]) {
+                    case 2:
+                        if (board.cellFree(6)) return 6;
+                        else return 4;
+                    case 4:
+                        if (board.cellFree(2)) return 2;
+                        else return 8;
+                    case 6:
+                        if (board.cellFree(8)) return 8;
+                        else return 2;
+                    case 8:
+                        if (board.cellFree(6)) return 6;
+                        else return 4;
+                }
             }
 
+            if (freeCells.length === 5) {
+
+            }
             return freeCells[Math.floor(Math.random() * freeCells.length)];
         }
     } else { // agent 2 (also known as playerTwo)
