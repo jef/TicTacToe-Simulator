@@ -60,8 +60,11 @@ Agent.prototype.selectMove = function(board) {
                 }
             }
 
+            // TO-DO Write if O is in a corner or odd spot
+            // This is help with tieing and winning
+
             // setup for trap (fork) or three corners
-            else if (board.cellFree(5) && freeCells.length === 7) {
+            if (board.cellFree(5) && freeCells.length === 7) {
                 switch(board.X[0]) {
                     case 2:
                         if (board.cellFree(6)) return 6;
@@ -79,10 +82,13 @@ Agent.prototype.selectMove = function(board) {
             }
 
             // finishes the trap (fork)
-            if (freeCells.length === 5 && board.cellFree(5)) return 5;
+            if (board.cellFree(5) && freeCells.length === 5) {
+                alert("im doing this");
+                return 5;
+            }
 
             // finishes 3 corners
-            if (freeCells.length === 5 && !board.cellFree(5)) {
+            if (!board.cellFree(5) && freeCells.length === 5) {
                 for (i = 0; i < evenNums.length; i++) {
                     for (j = 0; j < freeCells.length; j++) {
                         if (freeCells[j] % 2 === evenNums[i]) return evenNums[i];
@@ -90,7 +96,7 @@ Agent.prototype.selectMove = function(board) {
                 }
             }
 
-            return freeCells[Math.floor(Math.random() * freeCells.length)];
+            //return freeCells[Math.floor(Math.random() * freeCells.length)];
         }
     } else { // agent 2 (also known as playerTwo)
         //if (board.cellFree(5)) return 5;
