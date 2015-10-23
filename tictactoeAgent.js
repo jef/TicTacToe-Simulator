@@ -1,4 +1,5 @@
 // Tic Tac Toe
+// TCSS  435 AI
 // source: http://headinside.blogspot.com/2012/08/the-game-of-15-part-1.html
 
 //Jeffrey LeCompte && Robert Nichols
