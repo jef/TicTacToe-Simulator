@@ -1,32 +1,33 @@
-// Tic Tac Toe
-// TCSS  435 AI
-// source: http://headinside.blogspot.com/2012/08/the-game-of-15-part-1.html
-
-//Jeffrey LeCompte && Robert Nichols
+/* name: Jeffrey LeCompte & Robert Nichols
+ * class: TCSS 435 AI
+ * assignment: Tic Tac Toe
+ * sources used:
+ *     http://headinside.blogspot.com/2012/08/the-game-of-15-part-1.html
+ */
 var Agent = function () {
 
 };
 
 Agent.prototype.selectMove = function(board) {
     var freeCells = [];
+    var magicSum;
     var evenNums = [2, 4, 6 ,8];
-    var f, i, j, k, l;
-    for (i = 1; i < 10; i++) {
+    var oddNums = [1, 3, 7 ,9];
+    var f, i, k, l;
+
+    for (i = 1; i < 10; i++)
         if (board.cellFree(i)) freeCells.push(i);
-    }
 
     if (board.playerOne) {
-        var magicSum = 0;
+        magicSum = 0;
 
         // test to see if we can win
         for (k = 0; k < board.X.length - 1; k++) {
             for (l = k + 1; l < board.X.length; l++) {
                 for (f = 0; f < freeCells.length; f++) {
                     magicSum = board.X[k] + board.X[l] + freeCells[f];
-                    if (magicSum === 15) {
-                        alert("I won!");
+                    if (magicSum === 15)
                         return freeCells[f];
-                    }
                 }
             }
         }
@@ -36,10 +37,8 @@ Agent.prototype.selectMove = function(board) {
             for (l = k + 1; l < board.O.length; l++) {
                 for (f = 0; f < freeCells.length; f++) {
                     magicSum = board.O[k] + board.O[l] + freeCells[f];
-                    if (magicSum === 15) {
-                        alert("Blocked!");
+                    if (magicSum === 15)
                         return freeCells[f];
-                    }
                 }
             }
         }
@@ -81,24 +80,22 @@ Agent.prototype.selectMove = function(board) {
         if (board.cellFree(5) && freeCells.length === 5) {
             if (board.O[0] % 2 === 0) { // corner spot
                 for (k = 0; freeCells.length; k++) {
-                    if (freeCells[k] % 2 === 0) {
-                        alert("corner kick");
+                    if (freeCells[k] % 2 === 0)
                         return freeCells[k];
-                    }
                 }
             }
-            alert("trap daddy");
             return 5; // trap spot
         }
 
     } else { // agent 2 (also known as playerTwo)
-        var magicSum = 0;
+        magicSum = 0;
+
         if (freeCells.length === 8) {
             if (!board.cellFree(5)) return evenNums[Math.floor(Math.random() * evenNums.length)];
             else return 5;
         }
-        for (k = 0; k < board.X.length - 1; k++) {
 
+        for (k = 0; k < board.X.length - 1; k++) {
             for (l = k + 1; l < board.X.length; l++) {
                 for (f = 0; f < freeCells.length; f++) {
                     magicSum = board.X[k] + board.X[l] + freeCells[f];
@@ -108,8 +105,8 @@ Agent.prototype.selectMove = function(board) {
                 }
             }
         }
-        var oddNums = [1, 3, 7 ,9];
-        if(board.X[0]%2===0)
-            return  oddNums[Math.floor(Math.random() * oddNums.length)];
+
+        if(board.X[0] % 2 === 0)
+            return oddNums[Math.floor(Math.random() * oddNums.length)];
     }
 };
