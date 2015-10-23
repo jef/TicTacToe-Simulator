@@ -1,4 +1,7 @@
 // Tic Tac Toe
+// source: http://headinside.blogspot.com/2012/08/the-game-of-15-part-1.html
+
+//Jeffrey LeCompte && Robert Nichols
 var Agent = function () {
 
 };
@@ -60,9 +63,6 @@ Agent.prototype.selectMove = function(board) {
                 }
             }
 
-            // TO-DO Write if O is in a corner or odd spot
-            // This is help with tieing and winning
-
             // setup for trap (fork) or three corners
             if (board.cellFree(5) && freeCells.length === 7) {
                 switch(board.X[0]) {
@@ -88,18 +88,17 @@ Agent.prototype.selectMove = function(board) {
             }
 
             // finishes 3 corners
-            if (!board.cellFree(5) && freeCells.length === 5) {
-                for (i = 0; i < evenNums.length; i++) {
-                    for (j = 0; j < freeCells.length; j++) {
-                        if (freeCells[j] % 2 === evenNums[i]) return evenNums[i];
-                    }
-                }
-            }
-
-            //return freeCells[Math.floor(Math.random() * freeCells.length)];
+            // logic is complete, don't even need this part.
+            //if (!board.cellFree(5) && freeCells.length === 5) {
+            //    for (i = 0; i < evenNums.length; i++) {
+            //        for (j = 0; j < freeCells.length; j++) {
+            //            if (freeCells[j] % 2 === evenNums[i]) return evenNums[i];
+            //        }
+            //    }
+            //}
         }
     } else { // agent 2 (also known as playerTwo)
-        //if (board.cellFree(5)) return 5;
+        if (board.cellFree(5)) return 5;
         return freeCells[Math.floor(Math.random() * freeCells.length)];
     }
 };
