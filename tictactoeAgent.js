@@ -78,14 +78,11 @@ Agent.prototype.selectMove = function(board) {
 
         // finishes the trap (fork) or three corners
         if (board.cellFree(5) && freeCells.length === 5) {
-            // check if edge or corner (for loop)
-            for (j = 0; j < evenNums.length; j++) {
-                if (board.O[0] === evenNums[j]) { // corner spot
-                    for (k = 0; freeCells.length; k++) {
-                        if (freeCells[k] % 2 === 0) {
-                            alert("corner kick");
-                            return freeCells[k];
-                        }
+            if (board.O[0] % 2 === 0) { // corner spot
+                for (k = 0; freeCells.length; k++) {
+                    if (freeCells[k] % 2 === 0) {
+                        alert("corner kick");
+                        return freeCells[k];
                     }
                 }
             }
