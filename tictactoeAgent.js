@@ -91,7 +91,24 @@ Agent.prototype.selectMove = function(board) {
         }
 
     } else { // agent 2 (also known as playerTwo)
-        //if (board.cellFree(5)) return 5;
-        return freeCells[Math.floor(Math.random() * freeCells.length)];
+        var magicSum = 0;
+        if (freeCells.length === 8) {
+            if (!board.cellFree(5)) return evenNums[Math.floor(Math.random() * evenNums.length)];
+            else return 5;
+        }
+        for (k = 0; k < board.X.length - 1; k++) {
+
+            for (l = k + 1; l < board.X.length; l++) {
+                for (f = 0; f < freeCells.length; f++) {
+                    magicSum = board.X[k] + board.X[l] + freeCells[f];
+                    if (magicSum === 15) {
+                        return freeCells[f];
+                    }
+                }
+            }
+        }
+        var oddNums = [1, 3, 7 ,9];
+        if(board.X[0]%2===0)
+            return  oddNums[Math.floor(Math.random() * oddNums.length)];
     }
 };
