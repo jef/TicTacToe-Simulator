@@ -21,6 +21,8 @@ Agent.prototype.selectMove = function(board) {
     if (board.playerOne) {
         magicSum = 0;
 
+        //return freeCells[Math.floor(Math.random() * freeCells.length)];
+
         // test to see if we can win
         for (k = 0; k < board.X.length - 1; k++) {
             for (l = k + 1; l < board.X.length; l++) {
@@ -86,15 +88,21 @@ Agent.prototype.selectMove = function(board) {
             }
             return 5; // trap spot
         }
-
     } else { // agent 2 (also known as playerTwo)
         magicSum = 0;
 
-        if (freeCells.length === 8) {
-            if (!board.cellFree(5)) return evenNums[Math.floor(Math.random() * evenNums.length)];
-            else return 5;
+        // test to see if we can win (playerOne makes a mistake)
+        for (k = 0; k < board.O.length - 1; k++) {
+            for (l = k + 1; l < board.O.length; l++) {
+                for (f = 0; f < freeCells.length; f++) {
+                    magicSum = board.O[k] + board.O[l] + freeCells[f];
+                    if (magicSum === 15)
+                        return freeCells[f];
+                }
+            }
         }
 
+        // test to see if we can block
         for (k = 0; k < board.X.length - 1; k++) {
             for (l = k + 1; l < board.X.length; l++) {
                 for (f = 0; f < freeCells.length; f++) {
@@ -106,7 +114,42 @@ Agent.prototype.selectMove = function(board) {
             }
         }
 
-        if(board.X[0] % 2 === 0)
-            return oddNums[Math.floor(Math.random() * oddNums.length)];
+        // first move as second player
+        if (freeCells.length === 8) {
+            if (!board.cellFree(5)) return evenNums[Math.floor(Math.random() * evenNums.length)];
+            else return 5;
+        }
+
+        // breaks a weird setup that playerOne might do to trick
+        // playerTwo into a trap.
+        if (freeCells.length === 6) {
+            if (board.X[0] % 2 != 0 && board.X[1] % 2 != 0) {
+                switch(board.X[0]) {
+                    case 1: if (board.X[1] === 3) return 8;
+                        if (board.X[1] === 7) return 6;
+                        //return oddNums[Math.floor(Math.random() * oddNums.length)];
+                        break;
+                    case 3: if (board.X[1] === 1) return 8;
+                        if (board.X[1] === 9) return 4;
+                        //return oddNums[Math.floor(Math.random() * oddNums.length)];
+                        break;
+                    case 7: if (board.X[1] === 1) return 6;
+                        if (board.X[1] === 9) return 2;
+                        //return oddNums[Math.floor(Math.random() * oddNums.length)];
+                        break;
+                    case 9: if (board.X[1] === 3) return 4;
+                        if (board.X[1] === 7) return 2;
+                        //return oddNums[Math.floor(Math.random() * oddNums.length)];
+                        break;
+                }
+            } else {
+                return oddNums[Math.floor(Math.random() * oddNums.length)];
+            }
+        } else {
+            // picks an edge to try and force a cat's game
+            if (board.X[0] % 2 === 0) {
+                return oddNums[Math.floor(Math.random() * oddNums.length)];
+            }
+        }
     }
 };
